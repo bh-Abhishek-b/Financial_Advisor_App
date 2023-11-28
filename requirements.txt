@@ -6,3 +6,5 @@ openai==0.28.1
 tiktoken
 altair<5
 OpenAI
+onnxruntime
+gptcache
