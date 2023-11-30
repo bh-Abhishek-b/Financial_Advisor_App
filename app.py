@@ -8,6 +8,7 @@ from gptcache.embedding import Onnx
 from gptcache.manager import CacheBase, VectorBase, get_data_manager
 from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
 import time
+from streamlit_chat import message
 
 
 openai_api_key =st.secrets['OPENAI_API_KEY']
@@ -23,6 +24,8 @@ cache.set_openai_key()
 def new_session():
     st.session_state['text']=''
     del st.session_state.messages
+    del st.session_state.past
+    del st.session_state.generated
     file = 'database.json'
     with open (file,'w') as f:
         f.seek(0)
@@ -35,7 +38,10 @@ if 'chat_history' not in st.session_state:                                      
 if "messages" not in st.session_state:                                                                                      # Creating messages list in session state if not existed
     st.session_state.messages = []
 
-
+if 'past' not in st.session_state:
+    st.session_state.past=[]
+if 'generated' not in st.session_state:
+    st.session_state.generated=[]
 
 with st.sidebar:
     st.header("Financial Advisor App ")
@@ -51,7 +57,7 @@ with st.sidebar:
 def main():
     st.header("Welcome to Your Personal Financial Advisor💸")
     options=st.chat_input("Enter your response ")
-    start_time = time.time()
+    # start_time = time.time()
     
    
     if options == None:
@@ -65,15 +71,16 @@ def main():
             chat_response=get_chat_response(options)
          
     
-        for message in st.session_state["messages"]:
-            if message["role"] == "user":
-                                                                                                                                    # Display a user message in the chat interface
+        # for message in st.session_state["messages"]:
+        #     if message["role"] == "user":
+        #                                                                                                                             # Display a user message in the chat interface
               
-                    st.write('👤:',message["content"])
-            elif message["role"] == "assistant":
-                                                                                                                                    # Display an assistant message in the chat interface
-                    st.write("Time consuming: {:.2f}s".format(time.time() - start_time))
-                    st.write('🤖:',message["content"])
+        #             st.write('👤:',message["content"])
+        #     elif message["role"] == "assistant":
+        #                                                                                                                             # Display an assistant message in the chat interface
+        #             st.write("Time consuming: {:.2f}s".format(time.time() - start_time))
+        #             st.write('🤖:',message["content"])
+        
     st.button("End Chat",on_click=new_session,help="To start over")
 def get_chat_response(user_message):
     messages = load_messages()
@@ -124,8 +131,10 @@ def save_messages(user_message, gpt_response):
     messages = load_messages()
     messages.append({"role": "user", "content": user_message})
     st.session_state.messages.append({"role": "user", "content": user_message})
+    st.session_state.past.append(user_message)
     messages.append({"role": "assistant", "content": gpt_response})
     st.session_state.messages.append({"role": "assistant", "content": gpt_response})
+    st.session_state.generated.append(gpt_response)
     with open(file, 'w') as f:
         json.dump(messages, f)
 
