@@ -80,7 +80,14 @@ def main():
         #                                                                                                                             # Display an assistant message in the chat interface
         #             st.write("Time consuming: {:.2f}s".format(time.time() - start_time))
         #             st.write('🤖:',message["content"])
+        chat_placeholder = st.empty()
         
+        with chat_placeholder.container():    
+            for i in range(len(st.session_state['generated'])):                
+                message(st.session_state['past'][i], is_user=True, key=f"{i}_user")
+                message(
+                    st.session_state['generated'][i], 
+                    key=f"{i}")
     st.button("End Chat",on_click=new_session,help="To start over")
 def get_chat_response(user_message):
     messages = load_messages()
