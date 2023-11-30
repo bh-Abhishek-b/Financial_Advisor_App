@@ -12,6 +12,7 @@ from streamlit_chat import message
 
 
 openai_api_key =st.secrets['OPENAI_API_KEY']
+st.set_page_config(page_title='Finanical Advisor', page_icon='💸', layout="centered")
 onnx = Onnx()
 data_manager = get_data_manager(CacheBase("sqlite"), VectorBase("faiss", dimension=onnx.dimension))
 cache.init(
@@ -66,7 +67,7 @@ def main():
    
     else:   
         
-        with st.chat_message("assistant"):
+        with st.spinner("Bot is working"):
             
             chat_response=get_chat_response(options)
          
