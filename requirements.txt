@@ -10,3 +10,4 @@ onnxruntime
 gptcache
 transformers
 streamlit-chat
+streamlit-lottie
