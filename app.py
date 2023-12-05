@@ -9,6 +9,7 @@ from gptcache.manager import CacheBase, VectorBase, get_data_manager
 from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
 import time
 from streamlit_chat import message
+from streamlit_lottie import st_lottie
 
 
 openai_api_key =st.secrets['OPENAI_API_KEY']
@@ -46,7 +47,8 @@ if 'generated' not in st.session_state:
 
 with st.sidebar:
     st.header("Financial Advisor App ")
-    st.image("https://cdn.dribbble.com/users/1299339/screenshots/2982257/media/a0a4dcb030548cd22cc59c8214bfa1a4.gif")
+    st_lottie("https://lottie.host/8ff1e553-8f49-4b36-9ec6-4b3b4685d888/fsUA57khHn.json",quality="high")
+    # st.image("https://cdn.dribbble.com/users/1299339/screenshots/2982257/media/a0a4dcb030548cd22cc59c8214bfa1a4.gif")
     st.header("About")
     st.markdown("This interactive chatbot will engage users in conversations about their financial goals and provide personalized guidance on managing their finances, paying off loans, investing, planning for retirement, and addressing other financial concerns.")
     
