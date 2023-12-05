@@ -56,9 +56,8 @@ with st.sidebar:
 
 
 def main():
-    st.header("Welcome to Your Personal Financial Advisor💸")
+    st.header("Welcome to Your Personal Financial Advisor",divider='rainbow')
     options=st.chat_input("Enter your response ")
-    # start_time = time.time()
     
    
     if options == None:
@@ -71,24 +70,14 @@ def main():
             
             chat_response=get_chat_response(options)
          
-    
-        # for message in st.session_state["messages"]:
-        #     if message["role"] == "user":
-        #                                                                                                                             # Display a user message in the chat interface
-              
-        #             st.write('👤:',message["content"])
-        #     elif message["role"] == "assistant":
-        #                                                                                                                             # Display an assistant message in the chat interface
-        #             st.write("Time consuming: {:.2f}s".format(time.time() - start_time))
-        #             st.write('🤖:',message["content"])
         chat_placeholder = st.empty()
         
         with chat_placeholder.container():    
             for i in range(len(st.session_state['generated'])):                
-                message(st.session_state['past'][i], is_user=True, key=f"{i}_user")
-                message(
+                message(message='You : '+st.session_state['past'][i], is_user=True, key=f"{i}_user",avatar_style="thumbs",seed="Aneka")
+                message(message='Bot : '+
                     st.session_state['generated'][i], 
-                    key=f"{i}")
+                    key=f"{i}",avatar_style="bottts-neutral",seed="Aneka")
     st.button("End Chat",on_click=new_session,help="To start over")
 def get_chat_response(user_message):
     messages = load_messages()
